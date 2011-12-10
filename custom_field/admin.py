@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from custom_field.models import *
+from models import *
 
 class CustomFieldAdmin(admin.ModelAdmin):
     list_display = ('content_type','name')
