@@ -32,3 +32,6 @@ class CustomFieldValue(models.Model):
     
     def __unicode__(self):
         return unicode(self.value)
+        
+    class Meta:
+        unique_together = ('field','object_id')
