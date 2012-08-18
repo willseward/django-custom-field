@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import admin
 from django.forms.widgets import TextInput
+from django.contrib.contenttypes import generic
 
 from models import *
 
@@ -13,6 +14,8 @@ class CustomFieldModel():
     """
     Abstract class adds some helper functions a Model
     """
+    
+    
     @property
     def get_custom_fields(self):
         """ Return a list of custom fields for this model """
