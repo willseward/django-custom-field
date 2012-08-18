@@ -28,7 +28,6 @@ class CustomFieldValue(models.Model):
     field = models.ForeignKey(CustomField, related_name='instance')
     value = models.CharField(max_length=255,blank=True,null=True)
     object_id = models.PositiveIntegerField()
-    #content_type = models.ForeignKey(ContentType)
     
     def __unicode__(self):
         return unicode(self.value)

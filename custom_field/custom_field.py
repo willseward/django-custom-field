@@ -5,6 +5,10 @@ from django.forms.widgets import TextInput
 
 from models import *
 
+class Callable:
+    def __init__(self, anycallable):
+        self.__call__ = anycallable
+
 class CustomFieldModel():
     """
     Abstract class adds some helper functions a Model
@@ -13,6 +17,13 @@ class CustomFieldModel():
     def get_custom_fields(self):
         """ Return a list of custom fields for this model """
         return CustomField.objects.filter(content_type=ContentType.objects.get_for_model(self))
+    
+    def get_model_custom_fields(self):
+        """ Return a list of custom fields for this model, directly callable without an instance
+        Use like Foo.get_model_custom_fields(Foo)
+        """
+        return CustomField.objects.filter(content_type=ContentType.objects.get_for_model(self))
+    get_model_custom_fields = Callable(get_model_custom_fields)
         
     def get_custom_field(self, field_name):
         """ Get a custom field object for this model
