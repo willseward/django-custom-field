@@ -73,7 +73,13 @@ class CustomFieldAdmin(admin.ModelAdmin):
                 custom_form.fields[field.name] = forms.CharField(label=field.name, max_length=255, required=False)
             if obj_id:
                 value = CustomFieldValue.objects.get_or_create(field=field,object_id=obj_id)[0]
-                custom_form.fields[field.name].initial = value
+                if field.field_type == 'b' and str(value) == "False":
+                    custom_form.fields[field.name].initial = None
+                else:
+                    custom_form.fields[field.name].initial = value
+            else: # New
+                if field.default_value:
+                    custom_form.fields[field.name].initial = field.default_value
         return custom_form
     
     def render_change_form(self, request, context, *args, **kwargs):

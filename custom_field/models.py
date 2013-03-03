@@ -10,6 +10,7 @@ class CustomField(models.Model):
     name = models.CharField(max_length=75)
     content_type = models.ForeignKey(ContentType)
     field_type = models.CharField(max_length=1, choices=(('t','Text'),('i','Integer'),('b','Boolean (checkbox)'),), default='t')
+    default_value = models.CharField(max_length=255, blank=True, help_text="You may leave blank. For Boolean use blank for false or 1 for true (checked)")
     
     def get_value_for_object(self,obj):
         return CustomFieldValue.objects.get_or_create(field=self,object_id=obj.id)[0]
