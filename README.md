@@ -43,7 +43,7 @@ Optional: For admin models you want to have custom fields shown on extend the Mo
    
 #Django-SIS Useage
 The custom fields option allows schools additional flexibility with regards to storing information to a particular root model (student, applicants, student worker, etc.). Under Admin > Custom Fields, the custom fields creation screen displays:
-
+![Alt text](https://raw.github.com/burke-software/django-custom-field/master/screencaps/customfield1.png)
 
 For example, for private schools with tuition- they may opt to have a custom boolean field denoting via a check whether or not the student's family will use financial aid, as shown below:
 
