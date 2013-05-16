@@ -11,10 +11,13 @@ Does not alter sql when adding a new field. Does not allow you use to custom fie
 pip install django-custom-field
 Add 'custom_field' to settings.INSTALLED_APPS
 Optional: Edit the change_form.html and add
-   {% include "admin/includes/custom_field_fieldset.html" with custom_form=custom_form %}
+
+    {% include "admin/includes/custom_field_fieldset.html" with custom_form=custom_form %}
+
 to it, probably after fieldsets. If you don't already have a change_form.html you will need to extend contrib.admin's template and place it in /templates/admin/change_form.html
 You might even want to further customize this. Here is an example for Grappelli 2.4
 
+```bash
 {% spaceless %}
 {% if custom_form.fields %}
     <div class="grp-group">
@@ -34,12 +37,17 @@ You might even want to further customize this. Here is an example for Grappelli 
     </div>
 {% endif %}
 {% endspaceless %}
+```
+
 Optional: For shortcut methods to get and set custom fields, extend models you want to use it with like
-   from custom_field.custom_field import CustomFieldModel
-   class MyModel(CustomFieldModel):
+
+    from custom_field.custom_field import CustomFieldModel
+    class MyModel(CustomFieldModel):
+   
 Optional: For admin models you want to have custom fields shown on extend the ModelAdmin? like
-   from custom_field.custom_field import CustomFieldAdmin
-   class MyModelAdmin(CustomFieldAdmin):
+
+    from custom_field.custom_field import CustomFieldAdmin
+    class MyModelAdmin(CustomFieldAdmin):
    
 #Django-SIS Useage
 The custom fields option allows schools additional flexibility with regards to storing information to a particular model (student, applicants, student worker, etc.). 
