@@ -16,6 +16,7 @@ setup(
         'django-setuptest',
         'south',
     ),
+    install_request = ['django',]
     classifiers=[
         "Development Status :: 4 - Beta",
         'Environment :: Web Environment',

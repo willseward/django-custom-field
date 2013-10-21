@@ -5,6 +5,7 @@ Allow end users to create easy (but slower to work with) fields attached to any 
 
 Does not alter sql when adding a new field. Does not allow you use to custom fields in django ORM mymodel.objects.filter(custom_field_x=Whatever)
 
+[![Build Status](https://travis-ci.org/burke-software/django-custom-field.png?branch=master)](https://travis-ci.org/burke-software/django-custom-field)
  
 # Installation
 
