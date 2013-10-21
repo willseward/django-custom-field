@@ -8,9 +8,14 @@ setup(
     description = ("End user custom fields for Django including contrib.admin support"),
     license = "BSD",
     keywords = "django admin",
-    url = "http://code.google.com/p/django-custom-field/",
+    url = "http://github.com/burke-software/django-custom-field",
     packages=find_packages(),
     include_package_data=True,
+    test_suite='setuptest.setuptest.SetupTestSuite',
+    tests_require=(
+        'django-setuptest',
+        'south',
+    ),
     classifiers=[
         "Development Status :: 4 - Beta",
         'Environment :: Web Environment',
