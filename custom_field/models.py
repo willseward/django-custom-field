@@ -1,4 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.contenttypes import generic
 
@@ -9,17 +10,25 @@ class CustomField(models.Model):
     """
     name = models.CharField(max_length=75)
     content_type = models.ForeignKey(ContentType)
-    field_type = models.CharField(max_length=1, choices=(('t','Text'),('i','Integer'),('b','Boolean (checkbox)'),), default='t')
-    default_value = models.CharField(max_length=255, blank=True, help_text="You may leave blank. For Boolean use blank for false or 1 for true (checked)")
-    
-    def get_value_for_object(self,obj):
-        return CustomFieldValue.objects.get_or_create(field=self,object_id=obj.id)[0]
+    field_type = models.CharField(
+        max_length=1, 
+        choices=(('t','Text'),('i','Integer'),('b','Boolean (Yes/No)'),),
+        default='t')
+    default_value = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="You may leave blank. For Boolean use True or False")
+
+    def get_value_for_object(self, obj):
+        return CustomFieldValue.objects.get_or_create(
+            field=self,
+            object_id=obj.id)[0]
     
     def __unicode__(self):
         return unicode(self.name)
         
     class Meta:
-        unique_together = ('name','content_type')
+        unique_together = ('name', 'content_type')
     
 
 class CustomFieldValue(models.Model):
@@ -28,9 +37,9 @@ class CustomFieldValue(models.Model):
     each value that corresponds to a CustomField for a given model.
     """
     field = models.ForeignKey(CustomField, related_name='instance')
-    value = models.CharField(max_length=255,blank=True,null=True)
+    value = models.CharField(max_length=255, blank=True, null=True)
     object_id = models.PositiveIntegerField()
-    content_type = models.ForeignKey(ContentType,blank=True,null=True)
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
     def __unicode__(self):
@@ -41,6 +50,23 @@ class CustomFieldValue(models.Model):
         if not self.content_type:
             self.content_type = self.field.content_type
             self.save()
-        
+
+    def clean(self):
+        """ Check value against field_type """
+        if self.field.field_type == 'i':
+            try:
+                # the float is to deal with things like '2.0'
+                self.value = str(int(float(self.value)))
+            except ValueError:
+                raise ValidationError(
+                    u'{0} must be an integer.'.format(self.field))
+        elif self.field.field_type == 'b':
+            if (str(self.value).lower() in ["t", "true", 'yes'] or
+               self.value is True):
+                self.value = "True"
+            else:
+                self.value = "False"
+        return super(CustomFieldValue, self).clean()
+
     class Meta:
-        unique_together = ('field','object_id')
+        unique_together = ('field', 'object_id')
