@@ -54,9 +54,6 @@ class CustomFieldModel():
     
 
 class CustomFieldValueForm(forms.ModelForm):
-    class Meta:
-        model = CustomFieldValue
-
     def __init__(self, *args, **kwargs):
         super(CustomFieldValueForm, self).__init__(*args, **kwargs)
         if self.instance:
