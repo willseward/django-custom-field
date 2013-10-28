@@ -1,11 +1,11 @@
 from django import forms
 from django.contrib.contenttypes.models import ContentType
-from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 
-from models import *
+from .models import CustomField, CustomFieldValue
 
 class Callable:
     def __init__(self, anycallable):
@@ -76,26 +76,32 @@ class CustomInline(generic.GenericTabularInline):
     max_num = 0
 
 
-class CustomFieldAdmin(admin.ModelAdmin):
+class CustomFieldAdmin(ModelAdmin):
     """
     Abstract class addes functionality to deal with custom fields in Django admin.
     """
-    def __init__(self, *args, **kwargs):
-        super(CustomFieldAdmin, self).__init__(*args, **kwargs)
-        self.inlines += [CustomInline]
-
     def get_formsets(self, request, obj=None):
-        if not hasattr(self, 'inline_instances'):
-            self.inline_instances = self.get_inline_instances(request)
-        for inline in self.inline_instances:
-            if isinstance(inline, CustomInline):
-                if not obj:
-                    continue
-                content_type=ContentType.objects.get_for_model(obj)
-                custom_fields = CustomField.objects.filter(content_type=content_type)
-                if not custom_fields:
-                    continue
+        for inline in self.get_inline_instances(request, obj):
             yield inline.get_formset(request, obj)
+
+    def get_inline_instances(self, request, obj=None):
+        inline_instances = []
+
+        inlines = self.inlines
+        if obj:
+            inlines += [CustomInline]
+
+        for inline_class in inlines:
+            inline = inline_class(self.model, self.admin_site)
+            if request:
+                if not (inline.has_add_permission(request) or
+                        inline.has_change_permission(request) or
+                        inline.has_delete_permission(request)):
+                    continue
+                if not inline.has_add_permission(request):
+                    inline.max_num = 0
+            inline_instances.append(inline)
+        return inline_instances 
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:
