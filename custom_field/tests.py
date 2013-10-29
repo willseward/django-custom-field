@@ -48,9 +48,6 @@ class CustomFieldTest(TestCase):
 
     def test_admin(self):
         from django.contrib import admin
-        class CFAdmin(CustomFieldAdmin):
-            model = CustomField
-        admin.site.register(CustomField, CFAdmin)
         response = self.client.get('/admin/custom_field/customfield/1/')
         self.assertContains(response, '42', count=2)
         response = self.client.get('/admin/custom_field/customfield/1/') 
