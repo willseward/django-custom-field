@@ -52,7 +52,6 @@ class CustomFieldTest(TestCase):
             model = CustomField
         admin.site.register(CustomField, CFAdmin)
         response = self.client.get('/admin/custom_field/customfield/1/')
-        print response
         self.assertContains(response, '42', count=2)
         response = self.client.get('/admin/custom_field/customfield/1/') 
         # Make sure we aren't adding it on each get
