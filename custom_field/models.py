@@ -25,7 +25,7 @@ class CustomField(models.Model):
             object_id=obj.id)[0]
     
     def __unicode__(self):
-        return unicode(self.name)
+        return self.name
         
     class Meta:
         unique_together = ('name', 'content_type')
@@ -43,7 +43,7 @@ class CustomFieldValue(models.Model):
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
     def __unicode__(self):
-        return unicode(self.value)
+        return self.value
     
     def save(self, *args, **kwargs):
         super(CustomFieldValue, self).save(*args, **kwargs)
