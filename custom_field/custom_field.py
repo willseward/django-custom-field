@@ -1,4 +1,5 @@
 from django import forms
+from django.db import IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ObjectDoesNotExist
@@ -88,7 +89,7 @@ class CustomFieldAdmin(ModelAdmin):
         inline_instances = []
 
         inlines = self.inlines
-        if obj:
+        if obj and CustomInline not in inlines:
             inlines += [CustomInline]
 
         for inline_class in inlines:
@@ -108,11 +109,21 @@ class CustomFieldAdmin(ModelAdmin):
             content_type=ContentType.objects.get_for_model(obj)
             custom_fields = CustomField.objects.filter(content_type=content_type)
             for custom_field in custom_fields:
-                field_value, created = CustomFieldValue.objects.get_or_create(
-                    content_type = content_type,
-                    object_id = obj.id,
-                    field = custom_field,
-                )
+                try:
+                    field_value, created = CustomFieldValue.objects.get_or_create(
+                        content_type = content_type,
+                        object_id = obj.id,
+                        field = custom_field,
+                    )
+                except IntegrityError:
+                    # This can happen because content_type is really a
+                    # cache field and didn't always exist
+                    field_value, created = CustomFieldValue.objects.get_or_create(
+                        object_id = obj.id,
+                        field = custom_field,
+                    )
+                    field_value.content_type = content_type
+                    field_value.save()
                 if created:
                     if field_value.field.default_value:
                         field_value.value = field_value.field.default_value
