@@ -53,7 +53,7 @@ class CustomFieldValue(models.Model):
 
     def clean(self):
         """ Check value against field_type """
-        if self.field.field_type == 'i':
+        if self.field.field_type == 'i' and self.value:
             try:
                 # the float is to deal with things like '2.0'
                 self.value = str(int(float(self.value)))

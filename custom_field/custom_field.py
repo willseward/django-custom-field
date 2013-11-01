@@ -76,6 +76,10 @@ class CustomInline(generic.GenericTabularInline):
     extra = 0
     max_num = 0
 
+    def has_change_permission(self, request, obj=None):
+        """ Need to always allow changing custom values """
+        return True
+
 
 class CustomFieldAdmin(ModelAdmin):
     """
@@ -95,10 +99,11 @@ class CustomFieldAdmin(ModelAdmin):
         for inline_class in inlines:
             inline = inline_class(self.model, self.admin_site)
             if request:
-                if not (inline.has_add_permission(request) or
-                        inline.has_change_permission(request) or
-                        inline.has_delete_permission(request)):
-                    continue
+                if not isinstance(inline, CustomInline):
+                    if not (inline.has_add_permission(request) or
+                            inline.has_change_permission(request) or
+                            inline.has_delete_permission(request)):
+                        continue
                 if not inline.has_add_permission(request):
                     inline.max_num = 0
             inline_instances.append(inline)
