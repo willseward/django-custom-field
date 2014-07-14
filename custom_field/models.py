@@ -43,7 +43,7 @@ class CustomFieldValue(models.Model):
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
     def __unicode__(self):
-        return self.value
+        return '{}'.format(self.value)
     
     def save(self, *args, **kwargs):
         super(CustomFieldValue, self).save(*args, **kwargs)
