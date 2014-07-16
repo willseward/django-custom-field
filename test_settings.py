@@ -18,8 +18,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'south',
 )
+
+# Use south if 1.6 or less
+import django
+if int(str(django.VERSION[0]) + str(django.VERSION[1])) <= 16:
+    INSTALLED_APPS += ('south',)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',

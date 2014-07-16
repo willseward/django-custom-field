@@ -12,37 +12,36 @@ class Callable:
     def __init__(self, anycallable):
         self.__call__ = anycallable
 
-class CustomFieldModel():
+class CustomFieldModel(object):
     """
     Abstract class adds some helper functions a Model
     """
-    
     @property
     def get_custom_fields(self):
         """ Return a list of custom fields for this model """
         return CustomField.objects.filter(content_type=ContentType.objects.get_for_model(self))
-    
+
     def get_model_custom_fields(self):
         """ Return a list of custom fields for this model, directly callable without an instance
         Use like Foo.get_model_custom_fields(Foo)
         """
         return CustomField.objects.filter(content_type=ContentType.objects.get_for_model(self))
     get_model_custom_fields = Callable(get_model_custom_fields)
-        
+
     def get_custom_field(self, field_name):
         """ Get a custom field object for this model
         field_name - Name of the custom field you want.
         """
         content_type=ContentType.objects.get_for_model(self)
         return CustomField.objects.get(content_type=content_type,name=field_name)
-        
+
     def get_custom_value(self, field_name):
         """ Get a value for a specified custom field
         field_name - Name of the custom field you want.
         """
         custom_field = self.get_custom_field(field_name)
         return CustomFieldValue.objects.get_or_create(field=custom_field,object_id=self.id)[0].value
-        
+
     def set_custom_value(self, field_name, value):
         """ Set a value for a specified custom field
         field_name - Name of the custom field you want.
@@ -52,7 +51,7 @@ class CustomFieldModel():
         custom_value = CustomFieldValue.objects.get_or_create(field=custom_field,object_id=self.id)[0]
         custom_value.value = value
         custom_value.save()
-    
+
 
 class CustomFieldValueForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -107,7 +106,7 @@ class CustomFieldAdmin(ModelAdmin):
                 if not inline.has_add_permission(request):
                     inline.max_num = 0
             inline_instances.append(inline)
-        return inline_instances 
+        return inline_instances
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:
