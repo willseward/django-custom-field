@@ -11,7 +11,7 @@ class CustomField(models.Model):
     name = models.CharField(max_length=75)
     content_type = models.ForeignKey(ContentType)
     field_type = models.CharField(
-        max_length=1, 
+        max_length=1,
         choices=(('t','Text'),('i','Integer'),('b','Boolean (Yes/No)'),),
         default='t')
     default_value = models.CharField(
@@ -23,13 +23,13 @@ class CustomField(models.Model):
         return CustomFieldValue.objects.get_or_create(
             field=self,
             object_id=obj.id)[0]
-    
+
     def __unicode__(self):
         return self.name
-        
+
     class Meta:
         unique_together = ('name', 'content_type')
-    
+
 
 class CustomFieldValue(models.Model):
     """
@@ -41,10 +41,10 @@ class CustomFieldValue(models.Model):
     object_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    
+
     def __unicode__(self):
-        return '{}'.format(self.value)
-    
+        return str('{}'.format(self.value))
+
     def save(self, *args, **kwargs):
         super(CustomFieldValue, self).save(*args, **kwargs)
         if not self.content_type:
