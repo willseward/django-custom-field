@@ -2,6 +2,14 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.contenttypes import generic
+import sys
+
+
+if sys.version < '3':
+    text_type = unicode
+else:
+    text_type = str
+
 
 class CustomField(models.Model):
     """
@@ -43,7 +51,7 @@ class CustomFieldValue(models.Model):
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self):
-        return str('{}'.format(self.value))
+        return text_type(self.value)
 
     def save(self, *args, **kwargs):
         super(CustomFieldValue, self).save(*args, **kwargs)

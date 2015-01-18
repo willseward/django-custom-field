@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '__latest__'),
+        ('contenttypes', '0001_initial'),
     ]
 
     operations = [
@@ -24,10 +24,6 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.AlterUniqueTogether(
-            name='customfield',
-            unique_together=set([(b'name', b'content_type')]),
-        ),
         migrations.CreateModel(
             name='CustomFieldValue',
             fields=[
@@ -35,7 +31,7 @@ class Migration(migrations.Migration):
                 ('value', models.CharField(max_length=255, null=True, blank=True)),
                 ('object_id', models.PositiveIntegerField()),
                 ('content_type', models.ForeignKey(blank=True, to='contenttypes.ContentType', null=True)),
-                ('field', models.ForeignKey(to='custom_field.CustomField')),
+                ('field', models.ForeignKey(related_name='instance', to='custom_field.CustomField')),
             ],
             options={
             },
@@ -43,6 +39,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='customfieldvalue',
-            unique_together=set([(b'field', b'object_id')]),
+            unique_together=set([('field', 'object_id')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='customfield',
+            unique_together=set([('name', 'content_type')]),
         ),
     ]
