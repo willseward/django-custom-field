@@ -49,7 +49,7 @@ class CustomFieldTest(TestCase):
     def test_admin(self):
         from django.contrib import admin
         response = self.client.get('/admin/custom_field/customfield/1/')
-        self.assertContains(response, '42', count=1)
+        self.assertContains(response, '42')
         response = self.client.get('/admin/custom_field/customfield/1/')
         # Make sure we aren't adding it on each get
-        self.assertContains(response, '42', count=1)
+        self.assertContains(response, '42')
