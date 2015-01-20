@@ -1,8 +1,14 @@
 from django import forms
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.contenttypes import generic
+import sys
+
+
+if sys.version < '3':
+    text_type = unicode
+else:
+    text_type = str
 
 
 class CustomField(models.Model):
@@ -66,7 +72,8 @@ class CustomField(models.Model):
                 select_choices = (('', '---------'),)
             for choice in choices:
                 select_choices = select_choices + ((choice, choice),)
-            return forms.ChoiceField(choices=select_choices, **universal_kwargs)
+            return forms.ChoiceField(
+                choices=select_choices, **universal_kwargs)
         elif self.field_type == "d":
             return forms.DateField(**universal_kwargs)
         return forms.CharField(**universal_kwargs)
@@ -87,7 +94,7 @@ class CustomFieldValue(models.Model):
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self):
-        return str('{}'.format(self.value))
+        return text_type(self.value)
 
     def save(self, *args, **kwargs):
         super(CustomFieldValue, self).save(*args, **kwargs)

@@ -1,10 +1,8 @@
-from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from .models import CustomField, CustomFieldValue
-from .custom_field import CustomFieldAdmin
 
 
 class CustomFieldTest(TestCase):
@@ -16,8 +14,6 @@ class CustomFieldTest(TestCase):
             content_type=custom_field_ct,
             field_type="i",
         )
-        user_custom_field_ct = ContentType.objects.get(app_label="auth",
-                                                  model="user")
         self.user_custom_field = CustomField.objects.create(
             name="test_user_field",
             content_type=custom_field_ct,
