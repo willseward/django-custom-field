@@ -12,15 +12,16 @@ Does not alter sql when adding a new field. Does not allow you use to custom fie
 1. pip install django-custom-field
 2. Add 'custom_field' to settings.INSTALLED_APPS
 3. Optional: For shortcut methods to get and set custom fields, extend models you want to use it with like:
-
-    from custom_field.custom_field import CustomFieldModel
-    class MyModel(CustomFieldModel):
-   
+```
+from custom_field.custom_field import CustomFieldModel
+class MyModel(CustomFieldModel):
+```
 4. Optional: To have admin work with custom fields include this class:
+```
+from custom_field.custom_field import CustomFieldAdmin
+class MyModelAdmin(CustomFieldAdmin):
+```
 
-    from custom_field.custom_field import CustomFieldAdmin
-    class MyModelAdmin(CustomFieldAdmin):
-   
 #Schooldriver Usage
 The custom fields option allows schools additional flexibility with regards to storing information to a particular model (student, applicants, student worker, etc.). 
 
