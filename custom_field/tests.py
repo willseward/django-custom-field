@@ -1,6 +1,7 @@
+from django.contrib import admin
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
 from django.test import TestCase
 from .models import CustomField, CustomFieldValue
 from .custom_field import CustomFieldAdmin
@@ -33,7 +34,7 @@ class CustomFieldTest(TestCase):
     def test_validation(self):
         custom_value = CustomFieldValue.objects.create(
             field=self.custom_field,
-            value='5.0',
+            value='5',
             object_id=self.custom_field.id,
         )
         custom_value.clean()
@@ -47,9 +48,8 @@ class CustomFieldTest(TestCase):
             pass
 
     def test_admin(self):
-        from django.contrib import admin
         response = self.client.get('/admin/custom_field/customfield/1/')
-        self.assertContains(response, '42', count=2)
-        response = self.client.get('/admin/custom_field/customfield/1/') 
+        self.assertContains(response, '42')
+        response = self.client.get('/admin/custom_field/customfield/1/')
         # Make sure we aren't adding it on each get
-        self.assertContains(response, '42', count=2)
+        self.assertContains(response, '42')
