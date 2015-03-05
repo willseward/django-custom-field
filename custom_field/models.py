@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.contrib.contenttypes import generic
+from django.utils.encoding import python_2_unicode_compatible
 import sys
 
 
@@ -11,6 +12,7 @@ else:
     text_type = str
 
 
+@python_2_unicode_compatible
 class CustomField(models.Model):
     """
     A field abstract -- it describe what the field is.  There are one of these
@@ -47,7 +49,7 @@ class CustomField(models.Model):
             field=self,
             object_id=obj.id)[0]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_form_field(self):
@@ -82,6 +84,7 @@ class CustomField(models.Model):
         unique_together = ('name', 'content_type')
 
 
+@python_2_unicode_compatible
 class CustomFieldValue(models.Model):
     """
     A field instance -- contains the actual data.  There are many of these, for
@@ -93,7 +96,7 @@ class CustomFieldValue(models.Model):
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
-    def __unicode__(self):
+    def __str__(self):
         return text_type(self.value)
 
     def save(self, *args, **kwargs):
