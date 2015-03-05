@@ -87,29 +87,11 @@ class CustomFieldAdmin(ModelAdmin):
     """ Abstract class addes functionality to deal with custom fields in
     Django admin.
     """
-    def get_formsets(self, request, obj=None):
-        for inline in self.get_inline_instances(request, obj):
-            yield inline.get_formset(request, obj)
+    inlines = ()
 
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = []
-
-        inlines = self.inlines
-        if CustomInline not in inlines:
-            inlines += [CustomInline]
-
-        for inline_class in inlines:
-            inline = inline_class(self.model, self.admin_site)
-            if request:
-                if not isinstance(inline, CustomInline):
-                    if not (inline.has_add_permission(request) or
-                            inline.has_change_permission(request) or
-                            inline.has_delete_permission(request)):
-                        continue
-                if not inline.has_add_permission(request):
-                    inline.max_num = 0
-            inline_instances.append(inline)
-        return inline_instances
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        self.inlines = (CustomInline, )
+        return super(CustomFieldAdmin, self).change_view(request, object_id)
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:
