@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "django-custom-field",
-    version = "2.7",
+    version = "2.8",
     author = "David Burke",
     author_email = "david@burkesoftware.com",
     description = ("End user custom fields for Django including contrib.admin support"),
