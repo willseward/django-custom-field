@@ -89,9 +89,9 @@ class CustomFieldAdmin(ModelAdmin):
     """
     inlines = ()
 
-    def change_view(self, request, object_id, form_url='', extra_context=None):
+    def change_view(self, request, object_id, *args, **kwargs):
         self.inlines = (CustomInline, )
-        return super(CustomFieldAdmin, self).change_view(request, object_id, form_url='', extra_content=None)
+        return super(CustomFieldAdmin, self).change_view(request, object_id, *args, **kwargs)
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:
