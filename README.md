@@ -1,6 +1,15 @@
 django-custom-field
 ===================
 
+This project is no longer active. It should work fine however. 
+If you'd like to take over the repo please let me know.
+I would suggest using a hstore based solution instead of Entity–attribute–value.
+That said I put in the work for this project to be actualy usable in django admin so there is some value in that.
+At the time of this writing I couldn't find any key value based systems that were as easy to deploy.
+Django-hstore does not have the ability to enforce schema on the fly with a controller model.
+
+
+
 Allow end users to create easy (but slower to work with) fields attached to any Django model. Includes support so fields show up in the admin interface and helper functions that make it easy to access any custom fields programmatically.
 
 Does not alter sql when adding a new field. Does not allow you use to custom fields in django ORM mymodel.objects.filter(custom_field_x=Whatever)
