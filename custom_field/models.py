@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import fields
 from django.utils.encoding import python_2_unicode_compatible
 import sys
 
@@ -94,7 +94,7 @@ class CustomFieldValue(models.Model):
     value = models.CharField(max_length=5000, blank=True, null=True)
     object_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    content_object = fields.GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         return text_type(self.value)

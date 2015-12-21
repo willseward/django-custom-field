@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import admin
 
 from .models import CustomField, CustomFieldValue
 
@@ -69,7 +69,7 @@ class CustomFieldValueForm(forms.ModelForm):
                 pass
 
 
-class CustomInline(generic.GenericTabularInline):
+class CustomInline(admin.GenericTabularInline):
     model = CustomFieldValue
     form = CustomFieldValueForm
     can_delete = False
