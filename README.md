@@ -1,20 +1,11 @@
 django-custom-field
 ===================
 
-This project is no longer active. It should work fine however. 
-If you'd like to take over the repo please let me know.
-I would suggest using a hstore based solution instead of Entity–attribute–value.
-That said I put in the work for this project to be actualy usable in django admin so there is some value in that.
-At the time of this writing I couldn't find any key value based systems that were as easy to deploy.
-Django-hstore does not have the ability to enforce schema on the fly with a controller model.
-
-
-
 Allow end users to create easy (but slower to work with) fields attached to any Django model. Includes support so fields show up in the admin interface and helper functions that make it easy to access any custom fields programmatically.
 
 Does not alter sql when adding a new field. Does not allow you use to custom fields in django ORM mymodel.objects.filter(custom_field_x=Whatever)
 
-[![Build Status](https://travis-ci.org/burke-software/django-custom-field.png?branch=master)](https://travis-ci.org/burke-software/django-custom-field)
+[![Build Status](https://travis-ci.org/willseward/django-custom-field.png?branch=master)](https://travis-ci.org/willseward/django-custom-field)
  
 # Installation
 
@@ -35,7 +26,7 @@ class MyModelAdmin(CustomFieldAdmin):
 The custom fields option allows schools additional flexibility with regards to storing information to a particular model (student, applicants, student worker, etc.). 
 
 Under Admin > Custom Fields, the custom fields creation screen displays:
-![Alt text](https://raw.github.com/burke-software/django-custom-field/master/screencaps/customfield1.png)
+![Alt text](https://raw.github.com/willseward/django-custom-field/master/screencaps/customfield1.png)
 
 Required fields:
 
@@ -57,19 +48,23 @@ Accordingly, three custom fields will need to be generated under Admin > Custom 
 Who the applicant was referred by:
 
  
-![Alt text](https://raw.github.com/burke-software/django-custom-field/master/screencaps/customfield2.png)
+![Alt text](https://raw.github.com/willseward/django-custom-field/master/screencaps/customfield2.png)
 
 Number of visits to the school:
 
 
-![Alt text](https://raw.github.com/burke-software/django-custom-field/master/screencaps/customfield3.png)
+![Alt text](https://raw.github.com/willseward/django-custom-field/master/screencaps/customfield3.png)
 
 Whether or not financial aid is needed:
 
 
-![Alt text](https://raw.github.com/burke-software/django-custom-field/master/screencaps/customfield4.png)
+![Alt text](https://raw.github.com/willseward/django-custom-field/master/screencaps/customfield4.png)
 
 The end result will look like the image below where end users will see the custom fields attached to the Applicant model and can then enter the appropiate information
 
 
-![Alt text](https://raw.github.com/burke-software/django-custom-field/master/screencaps/customfield5.png)
+![Alt text](https://raw.github.com/willseward/django-custom-field/master/screencaps/customfield5.png)
+
+# Credit
+
+This project was originally designed and maintained by [burke-software](https://github.com/burke-software). After a period of stagnation, it was graciously handed over to me for upkeep. Please give due respect and gratitude for the inception of this project to David.
