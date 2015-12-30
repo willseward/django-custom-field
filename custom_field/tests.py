@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from .models import CustomField, CustomFieldValue
+from django.core import urlresolvers
 
 
 class CustomFieldTest(TestCase):
@@ -44,8 +45,10 @@ class CustomFieldTest(TestCase):
             pass
 
     def test_admin(self):
-        response = self.client.get('/admin/custom_field/customfield/1/')
+        change_url = urlresolvers.reverse(
+            'admin:custom_field_customfield_change', args=[1])
+        response = self.client.get(change_url)
         self.assertContains(response, '42')
-        response = self.client.get('/admin/custom_field/customfield/1/')
+        response = self.client.get(change_url)
         # Make sure we aren't adding it on each get
         self.assertContains(response, '42')
