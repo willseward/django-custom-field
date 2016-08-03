@@ -1,10 +1,19 @@
 language: python
-python:
-  - "2.7"
-  - "3.4"
+
 sudo: false
-# command to install dependencies
+
+
+env:
+  - TOX_ENV=py27-django18
+  - TOX_ENV=py27-django19
+  - TOX_ENV=py27-django110
+  - TOX_ENV=py34-django18
+  - TOX_ENV=py34-django19
+  - TOX_ENV=py34-django110
+
+
 install:
-  - pip install -q -e . --use-mirrors
-# command to run tests
-script: python manage.py test 
+  - pip install tox
+
+script:
+- tox -e $TOX_ENV
