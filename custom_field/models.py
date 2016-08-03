@@ -58,8 +58,7 @@ class CustomField(models.Model):
             'required': self.is_required,
         }
         if self.field_type == "b":
-            check_choices = (('True', 'True'), ('False', 'False'))
-            return forms.ChoiceField(choices=check_choices, **universal_kwargs)
+            return forms.BooleanField(**universal_kwargs)
         elif self.field_type == "i":
             return forms.IntegerField(**universal_kwargs)
         elif self.field_type == "f":
