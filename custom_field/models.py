@@ -30,6 +30,7 @@ class CustomField(models.Model):
             ('b', 'Boolean (Yes/No)'),
             ('m', 'Dropdown Choices'),
             ('d', 'Date'),
+            ('dt', 'Date Time'),
         ),
         default='t')
     default_value = models.CharField(
@@ -81,6 +82,8 @@ class CustomField(models.Model):
                 choices=select_choices, **universal_kwargs)
         elif self.field_type == "d":
             return forms.DateField(**universal_kwargs)
+        elif self.field_type == "dt":
+            return forms.DateTimeField(**universal_kwargs)
         return forms.CharField(**universal_kwargs)
 
     class Meta:
