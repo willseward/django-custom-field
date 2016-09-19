@@ -82,7 +82,7 @@ class CustomField(models.Model):
                 choices=select_choices, **universal_kwargs)
         elif self.field_type == "d":
             return forms.DateField(**universal_kwargs)
-        elif self.field_type == "dt":
+        elif self.field_type == "h":
             return forms.DateTimeField(**universal_kwargs)
         return forms.CharField(**universal_kwargs)
 
