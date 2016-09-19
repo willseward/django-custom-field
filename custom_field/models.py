@@ -30,7 +30,7 @@ class CustomField(models.Model):
             ('b', 'Boolean (Yes/No)'),
             ('m', 'Dropdown Choices'),
             ('d', 'Date'),
-            ('dt', 'Date Time'),
+            ('h', 'Date Time'),
         ),
         default='t')
     default_value = models.CharField(
